@@ -9,17 +9,17 @@ from src.ecs.components.c_surface import CSurface
 from src.ecs.components.tags.c_tag_bullet import CTagBullet
 from src.ecs.components.c_transform import CTransform
 from src.ecs.components.c_velocity import CVelocity
-from src.ecs.systems.s_collision_enemy_bullet import (
+from src.ecs.systems.collision.s_collision_enemy_bullet import (
     system_collision_enemy_bullet)
-from src.ecs.systems.s_collision_player_enemy import (
+from src.ecs.systems.collision.s_collision_player_enemy import (
     system_collision_player_enemy)
 from src.ecs.systems.s_enemy_spawner import system_enemy_spawner
 from src.ecs.systems.s_input_player import system_input_player
 from src.ecs.systems.s_movement import system_movement
 from src.ecs.systems.s_rendering import system_rendering
-from src.ecs.systems.s_screen_bounce import system_screen_bounce
-from src.ecs.systems.s_screen_bullet import system_screen_bullet
-from src.ecs.systems.s_screen_player import system_screen_player
+from src.ecs.systems.screen.s_screen_bounce import system_screen_bounce
+from src.ecs.systems.screen.s_screen_bullet import system_screen_bullet
+from src.ecs.systems.screen.s_screen_player import system_screen_player
 
 CFG_PATH = pathlib.Path(__file__).resolve().parents[2] / "assets" / "cfg"
 
@@ -125,7 +125,8 @@ class GameEngine:
         system_screen_bounce(self.ecs_world, self.screen)
         system_screen_player(self.ecs_world, self.screen)
         system_collision_enemy_bullet(self.ecs_world)
-        system_collision_player_enemy(self.ecs_world)
+        system_collision_player_enemy(self.ecs_world,
+                                      self.level_01_cfg["player_spawn"])
         system_screen_bullet(self.ecs_world, self.screen)
 
     def _draw(self):
