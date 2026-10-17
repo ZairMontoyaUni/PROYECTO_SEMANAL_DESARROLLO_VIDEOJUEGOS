@@ -1,0 +1,6 @@
+{
+    "title": "Rectangulos Rebotando",
+    "size": { "w": 640, "h": 360 },
+    "bg_color": { "r": 0, "g": 200, "b": 128 },
+    "framerate": 60
+}

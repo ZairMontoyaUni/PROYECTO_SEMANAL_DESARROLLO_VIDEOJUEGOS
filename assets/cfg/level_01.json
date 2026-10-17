@@ -1,0 +1,10 @@
+{
+    "enemy_spawn_events": [
+        { "time": 1.0, "enemy_type": "TypeA", "position": { "x": 100, "y": 100 } },
+        { "time": 2.0, "enemy_type": "TypeB", "position": { "x": 300, "y": 150 } },
+        { "time": 3.0, "enemy_type": "TypeC", "position": { "x": 500, "y": 50 } },
+        { "time": 4.0, "enemy_type": "TypeA", "position": { "x": 200, "y": 250 } },
+        { "time": 5.0, "enemy_type": "TypeB", "position": { "x": 400, "y": 300 } },
+        { "time": 6.0, "enemy_type": "TypeC", "position": { "x": 50, "y": 200 } }
+    ]
+}

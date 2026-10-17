@@ -1,0 +1,20 @@
+{
+    "TypeA": {
+        "size": { "x": 30, "y": 30 },
+        "color": { "r": 255, "g": 0, "b": 0 },
+        "velocity_min": 150,
+        "velocity_max": 300
+    },
+    "TypeB": {
+        "size": { "x": 50, "y": 20 },
+        "color": { "r": 0, "g": 0, "b": 255 },
+        "velocity_min": 250,
+        "velocity_max": 700
+    },
+    "TypeC": {
+        "size": { "x": 20, "y": 60 },
+        "color": { "r": 255, "g": 255, "b": 0 },
+        "velocity_min": 300,
+        "velocity_max": 500
+    }
+}
