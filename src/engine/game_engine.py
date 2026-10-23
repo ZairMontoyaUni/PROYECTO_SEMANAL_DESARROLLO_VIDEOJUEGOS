@@ -9,11 +9,16 @@ from src.ecs.components.c_surface import CSurface
 from src.ecs.components.tags.c_tag_bullet import CTagBullet
 from src.ecs.components.c_transform import CTransform
 from src.ecs.components.c_velocity import CVelocity
+from src.ecs.systems.animation.s_animation import system_animation
+from src.ecs.systems.animation.s_explosion_end import system_explosion_end
+from src.ecs.systems.animation.s_player_animation_state import (
+    system_player_animation_state)
 from src.ecs.systems.collision.s_collision_enemy_bullet import (
     system_collision_enemy_bullet)
 from src.ecs.systems.collision.s_collision_player_enemy import (
     system_collision_player_enemy)
 from src.ecs.systems.s_enemy_spawner import system_enemy_spawner
+from src.ecs.systems.s_hunter_state import system_hunter_state
 from src.ecs.systems.s_input_player import system_input_player
 from src.ecs.systems.s_movement import system_movement
 from src.ecs.systems.s_rendering import system_rendering
@@ -56,6 +61,9 @@ class GameEngine:
             self.player_cfg = json.load(player_file)
         with open(CFG_PATH / "bullet.json", encoding="utf-8") as bullet_file:
             self.bullet_cfg = json.load(bullet_file)
+        with open(CFG_PATH / "explosion.json",
+                  encoding="utf-8") as explosion_file:
+            self.explosion_cfg = json.load(explosion_file)
 
     def run(self) -> None:
         self._create()
@@ -114,20 +122,25 @@ class GameEngine:
         elif c_input.name == "PLAYER_FIRE":
             max_bullets = self.level_01_cfg["player_spawn"]["max_bullets"]
             if len(self.ecs_world.get_component(CTagBullet)) < max_bullets:
-                player_size = pygame.Vector2(self._player_c_s.surf.get_size())
+                player_size = pygame.Vector2(self._player_c_s.area.size)
                 player_center = self._player_c_t.pos + player_size / 2
                 crear_bala(self.ecs_world, player_center, c_input.pos,
                            self.bullet_cfg)
 
     def _update(self):
         system_enemy_spawner(self.ecs_world, self.enemies_cfg, self.delta_time)
+        system_hunter_state(self.ecs_world, self.delta_time)
         system_movement(self.ecs_world, self.delta_time)
         system_screen_bounce(self.ecs_world, self.screen)
         system_screen_player(self.ecs_world, self.screen)
-        system_collision_enemy_bullet(self.ecs_world)
+        system_collision_enemy_bullet(self.ecs_world, self.explosion_cfg)
         system_collision_player_enemy(self.ecs_world,
-                                      self.level_01_cfg["player_spawn"])
+                                      self.level_01_cfg["player_spawn"],
+                                      self.explosion_cfg)
         system_screen_bullet(self.ecs_world, self.screen)
+        system_player_animation_state(self.ecs_world)
+        system_animation(self.ecs_world, self.delta_time)
+        system_explosion_end(self.ecs_world)
 
     def _draw(self):
         self.screen.fill(self.bg_color)

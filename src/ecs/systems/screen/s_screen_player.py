@@ -12,7 +12,7 @@ def system_screen_player(world: esper.World, screen: pygame.Surface) -> None:
     c_t: CTransform
     c_s: CSurface
     for _entity, (c_t, c_s, _tag) in components:
-        player_rect = c_s.surf.get_rect(topleft=c_t.pos)
+        player_rect = c_s.get_rect(c_t.pos)
         if not screen_rect.contains(player_rect):
             player_rect.clamp_ip(screen_rect)
             c_t.pos.x = player_rect.x

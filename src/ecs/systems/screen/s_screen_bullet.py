@@ -12,6 +12,6 @@ def system_screen_bullet(world: esper.World, screen: pygame.Surface) -> None:
     c_t: CTransform
     c_s: CSurface
     for entity, (c_t, c_s, _tag) in components:
-        bullet_rect = c_s.surf.get_rect(topleft=c_t.pos)
+        bullet_rect = c_s.get_rect(c_t.pos)
         if not screen_rect.contains(bullet_rect):
             world.delete_entity(entity, immediate=True)

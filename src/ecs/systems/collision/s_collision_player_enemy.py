@@ -1,5 +1,6 @@
 import esper
 import pygame
+from src.create.prefab_creator import crear_explosion
 from src.ecs.components.c_enemy_spawner import CEnemySpawner
 from src.ecs.components.c_surface import CSurface
 from src.ecs.components.c_transform import CTransform
@@ -7,16 +8,18 @@ from src.ecs.components.tags.c_tag_enemy import CTagEnemy
 from src.ecs.components.tags.c_tag_player import CTagPlayer
 
 
-def system_collision_player_enemy(world: esper.World,
-                                  player_spawn: dict) -> None:
+def system_collision_player_enemy(world: esper.World, player_spawn: dict,
+                                  explosion_info: dict) -> None:
     players = world.get_components(CTransform, CSurface, CTagPlayer)
     enemies = world.get_components(CTransform, CSurface, CTagEnemy)
 
     for _player_entity, (c_t_p, c_s_p, _tag_p) in players:
-        player_rect = c_s_p.surf.get_rect(topleft=c_t_p.pos)
+        player_rect = c_s_p.get_rect(c_t_p.pos)
         for _enemy_entity, (c_t_e, c_s_e, _tag_e) in enemies:
-            enemy_rect = c_s_e.surf.get_rect(topleft=c_t_e.pos)
+            enemy_rect = c_s_e.get_rect(c_t_e.pos)
             if player_rect.colliderect(enemy_rect):
+                crear_explosion(world, pygame.Vector2(enemy_rect.center),
+                                explosion_info)
                 _morir(world, c_t_p, c_s_p, player_spawn)
                 return
 
@@ -26,7 +29,7 @@ def _morir(world: esper.World, c_t_p: CTransform, c_s_p: CSurface,
     # 1. El jugador vuelve a su posición de origen (centrado en ese punto).
     center = pygame.Vector2(player_spawn["position"]["x"],
                             player_spawn["position"]["y"])
-    c_t_p.pos = center - pygame.Vector2(c_s_p.surf.get_size()) / 2
+    c_t_p.pos = center - pygame.Vector2(c_s_p.area.size) / 2
 
     # 2. Desaparecen todos los enemigos que existan.
     for enemy_entity, _tag in world.get_component(CTagEnemy):
