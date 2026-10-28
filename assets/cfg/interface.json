@@ -1,0 +1,42 @@
+{
+    "title": {
+        "font": "assets/fnt/PressStart2P.ttf",
+        "text": "SPACE HUNTERS",
+        "color": {"r": 255, "g": 255, "b": 255},
+        "size": 16,
+        "position": {"x": 320, "y": 20},
+        "anchor": "center"
+    },
+    "instructions": {
+        "font": "assets/fnt/PressStart2P.ttf",
+        "text": "FLECHAS: MOVER  CLIC IZQ: DISPARAR  CLIC DER: ESPECIAL  P: PAUSA",
+        "color": {"r": 150, "g": 150, "b": 150},
+        "size": 8,
+        "position": {"x": 320, "y": 346},
+        "anchor": "center"
+    },
+    "pause": {
+        "font": "assets/fnt/PressStart2P.ttf",
+        "text": "JUEGO PAUSADO",
+        "color": {"r": 255, "g": 220, "b": 0},
+        "size": 24,
+        "position": {"x": 320, "y": 120},
+        "anchor": "center"
+    },
+    "special_ready": {
+        "font": "assets/fnt/PressStart2P.ttf",
+        "text": "ESPECIAL: LISTO",
+        "color": {"r": 80, "g": 255, "b": 80},
+        "size": 8,
+        "position": {"x": 8, "y": 8},
+        "anchor": "topleft"
+    },
+    "special_cooldown": {
+        "font": "assets/fnt/PressStart2P.ttf",
+        "text": "ESPECIAL: {seconds}s",
+        "color": {"r": 255, "g": 200, "b": 0},
+        "size": 8,
+        "position": {"x": 8, "y": 8},
+        "anchor": "topleft"
+    }
+}

@@ -18,3 +18,4 @@ class CHunterState:
         self.velocity_return = enemy_info["velocity_return"]
         self.distance_start_chase = enemy_info["distance_start_chase"]
         self.distance_start_return = enemy_info["distance_start_return"]
+        self.sound_chase = enemy_info["sound_chase"]

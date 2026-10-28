@@ -9,6 +9,11 @@ class CSurface:
         self.area = pygame.Rect(0, 0, surf.get_width() // number_frames,
                                 surf.get_height())
 
+    @classmethod
+    def from_text(cls, text: str, font: pygame.font.Font,
+                  color: pygame.Color) -> "CSurface":
+        return cls(font.render(text, False, color).convert_alpha())
+
     def get_rect(self, pos: pygame.Vector2) -> pygame.Rect:
         """Rectángulo que ocupa la entidad en pantalla (para colisiones)."""
         return pygame.Rect(pos, self.area.size)

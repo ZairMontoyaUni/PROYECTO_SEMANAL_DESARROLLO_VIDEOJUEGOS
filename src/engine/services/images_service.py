@@ -1,12 +1,15 @@
-import pathlib
 import pygame
-
-ROOT_PATH = pathlib.Path(__file__).resolve().parents[3]
-_images: dict[str, pygame.Surface] = {}
+from src.engine.services.paths import resource_path
 
 
-def get_image(path: str) -> pygame.Surface:
-    """Carga una imagen (ruta relativa a main.py) y la guarda en caché."""
-    if path not in _images:
-        _images[path] = pygame.image.load(ROOT_PATH / path).convert_alpha()
-    return _images[path]
+class ImagesService:
+    """Carga imágenes una sola vez y las guarda en caché."""
+
+    def __init__(self) -> None:
+        self._images: dict[str, pygame.Surface] = {}
+
+    def get(self, path: str) -> pygame.Surface:
+        if path not in self._images:
+            self._images[path] = pygame.image.load(
+                resource_path(path)).convert_alpha()
+        return self._images[path]

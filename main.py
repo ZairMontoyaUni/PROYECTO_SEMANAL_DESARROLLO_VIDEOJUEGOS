@@ -1,8 +1,21 @@
 #!/usr/bin/python3
 """Función Main"""
 
+# /// script
+# dependencies = [
+#     "esper==2.5",
+# ]
+# ///
+
+import asyncio
+
 from src.engine.game_engine import GameEngine
 
-if __name__ == "__main__":
+
+async def main():
     engine = GameEngine()
-    engine.run()
+    await engine.run()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

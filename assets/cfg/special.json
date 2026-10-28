@@ -1,0 +1,10 @@
+{
+    "sound": "assets/snd/laser_special.ogg",
+    "image": "assets/img/bullet_especial.png",
+    "velocity": 250,
+    "cooldown": 2.5,
+    "shake": {
+        "duration": 0.15,
+        "intensity": 3
+    }
+}
