@@ -88,21 +88,15 @@ def crear_bala(world: esper.World, origin: pygame.Vector2,
     world.add_component(bullet_entity, CTagBullet())
 
 
-def crear_bala_especial(world: esper.World, origin: pygame.Vector2,
-                        target: pygame.Vector2, special_info: dict) -> bool:
-    """Dispara 4 balas en las diagonales de la dirección del clic."""
-    direction = target - origin
-    if direction.length() == 0:
-        return False
-    ServiceLocator.sounds_service.play(special_info["sound"])  # una sola vez
-    for angle in (45, 135, 225, 315):
-        vel = direction.normalize().rotate(angle) * special_info["velocity"]
-        bullet_entity = crear_sprite(world, pygame.Vector2(), vel,
-                                     special_info, play_sound=False)
-        _centrar(world, bullet_entity, origin)
-        world.add_component(bullet_entity, CTagBullet())
-        world.add_component(bullet_entity, CTagSpecialBullet())
-    return True
+def crear_bala_especial(world: esper.World, center: pygame.Vector2,
+                        direction: pygame.Vector2, special_info: dict) -> None:
+    """Crea una bala especial en 'center' que viaja hacia 'direction'."""
+    vel = direction.normalize() * special_info["velocity"]
+    bullet_entity = crear_sprite(world, pygame.Vector2(), vel, special_info,
+                                 play_sound=False)
+    _centrar(world, bullet_entity, center)
+    world.add_component(bullet_entity, CTagBullet())
+    world.add_component(bullet_entity, CTagSpecialBullet())
 
 
 def crear_explosion(world: esper.World, center: pygame.Vector2,

@@ -1,8 +1,8 @@
 import asyncio
 import esper
 import pygame
-from src.create.prefab_creator import (crear_bala, crear_bala_especial,
-                                       crear_enemy_spawner, crear_hud_especial,
+from src.create.prefab_creator import (crear_bala, crear_enemy_spawner,
+                                       crear_hud_especial,
                                        crear_input_player, crear_jugador,
                                        crear_screen_shake, crear_texto,
                                        crear_texto_pausa)
@@ -32,6 +32,7 @@ from src.ecs.systems.screen.s_screen_bounce import system_screen_bounce
 from src.ecs.systems.screen.s_screen_bullet import system_screen_bullet
 from src.ecs.systems.screen.s_screen_player import system_screen_player
 from src.ecs.systems.screen.s_screen_shake import system_screen_shake
+from src.ecs.systems.special.s_special_attack import system_special_attack
 from src.ecs.systems.special.s_special_cooldown import system_special_cooldown
 from src.ecs.systems.special.s_special_hud import system_special_hud
 from src.engine.service_locator import ServiceLocator
@@ -148,13 +149,14 @@ class GameEngine:
         elif c_input.name == "PLAYER_DOWN":
             vel.y += speed if c_input.phase == CommandPhase.START else -speed
         elif c_input.name == "PAUSE_GAME":
-            self._toggle_pause()
+            if c_input.phase == CommandPhase.START:  # solo al presionar
+                self._toggle_pause()
         elif self.is_paused:
             return  # en pausa no se puede disparar
         elif c_input.name == "PLAYER_FIRE":
             self._fire_bullet(c_input)
         elif c_input.name == "PLAYER_SPECIAL":
-            self._fire_special(c_input)
+            self._fire_special()
 
     def _player_center(self) -> pygame.Vector2:
         player_size = pygame.Vector2(self._player_c_s.area.size)
@@ -169,11 +171,10 @@ class GameEngine:
             crear_bala(self.ecs_world, self._player_center(), c_input.pos,
                        self.bullet_cfg)
 
-    def _fire_special(self, c_input: CInputCommand):
+    def _fire_special(self):
         if self._player_c_sa.time_left > 0:
             return  # todavía recargando
-        if crear_bala_especial(self.ecs_world, self._player_center(),
-                               c_input.pos, self.special_cfg):
+        if system_special_attack(self.ecs_world, self.special_cfg):
             self._player_c_sa.time_left = self._player_c_sa.cooldown
             self._screen_shake.start()
 
