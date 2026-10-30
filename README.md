@@ -2,9 +2,7 @@
 
 Proyecto semanal de Desarrollo de Videojuegos (Python + pygame-ce + esper / ECS).
 
-ENLACE DEL JUEGO EN ITCH.IO:
-PEGAR_AQUI_EL_ENLACE
-
+ENLACE DEL JUEGO EN ITCH.IO:https://zairmontoyauni.itch.io/space-hunters
 Autor: Zair Samuel Montoya Bello
 
 ## CONTROLES
